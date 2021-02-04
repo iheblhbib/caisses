@@ -1,0 +1,185 @@
+<?php
+
+?>
+ <!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml">
+<style type="text/css">
+  body {
+margin : 20px;  
+}
+
+td.details-control {
+    background: url('https://www.datatables.net/examples/resources/details_open.png') no-repeat center center;
+    cursor: pointer;
+}
+
+tr.shown td.details-control {
+   background: url('https://www.datatables.net/examples/resources/details_close.png') no-repeat center center;
+}
+
+tr.loading td.details-control {
+ background :rgba(0, 0, 0, 0) url('http://i.imgur.com/mtfdoXy.gif') no-repeat scroll center center;
+}
+
+</style>
+ <title>titre de projet</title>
+ <script src="js/jquery.min.js"></script>
+    <link rel="stylesheet" href="css/bootstrap.min.css" />
+    <script src="js/bootstrap.min.js"></script>
+  <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css" />
+  <script src="https://cdn.datatables.net/1.10.15/js/jquery.dataTables.min.js"></script>
+  <script src="https://cdn.datatables.net/1.10.15/js/dataTables.bootstrap.min.js"></script>
+  <body>
+    <div class="container">
+  
+<div class="container box">
+   <br />
+   <div class="table-responsive">
+    <br />
+  
+    <br /><br />
+    <table id="myTable" class="table table-bordered table-striped">
+     <thead>
+      <tr>
+       <th width="20%">Mois</th>
+       <th width="20%">Somme Totale</th>
+       <th width="20%"></th>
+      </tr>
+     </thead>
+       <tfoot></tfoot>
+    </table>
+    
+   </div>
+  </div>
+</div>
+<div id="userModal" class="modal fade">
+ <div class="modal-dialog">
+  <form method="post" id="user_form" enctype="multipart/form-data">
+   <div class="modal-content" style = "width = 1200px">
+    <div class="modal-header">
+           <h4 class="modal-title">voir détails</h4>
+
+     <button type="button" class="close" data-dismiss="modal">&times;</button>
+    </div>
+    <div class="modal-body">
+   <table id="view_details" class="table table-bordered table-striped">
+     <thead>
+      <tr>
+       <td width="20%">item_name</td>
+       <td width="20%">order_item_quantity</td>
+        <td width="20%">order_item_price</td>
+        <td width="20%">order_item_final_amount</td>
+      </tr>
+     </thead>
+     <tfoot></tfoot>
+    </table>
+    </div>
+    <div class="modal-footer">
+     <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+    </div>
+   </div>
+  </form>
+ </div>
+</div>
+
+ 
+  </body>
+</html>
+<script type="text/javascript">
+$(document).ready(function(){
+    var table = $('#myTable').DataTable({
+          "processing":true,
+  "serverSide":true,
+   "order":[],
+          "ajax":{
+   url:"select.php",
+   type:"POST"
+ },
+  
+          "columnDefs":[
+          {
+            "className": "details-control", "targets": -1,
+            "orderable":false,
+            "searchable":false, 
+            "defaultContent": "",
+          
+          },
+        ],
+        });
+// Add event listener for opening and closing details
+    $('#myTable tbody').on('click', 'td.details-control', function () {
+        var tr = $(this).closest('tr');
+        var row = table.row( tr );
+ 
+        if ( row.child.isShown() ) {
+            // This row is already open - close it
+            row.child.hide();
+            tr.removeClass('shown');
+        }
+        else {
+            // Open this row
+            row.child( format(row.data()) ).show();
+            tr.addClass('shown');
+        }
+    } );
+
+    function format ( rowData ) {
+                  console.log(rowData[0]);
+
+    var div = $('<div/>')
+        .addClass( 'loading' ); 
+    $.ajax( {
+        url: 'insertt.php',
+        method: 'POST',
+        data: {
+            date: rowData[0]
+
+        },
+        dataType: 'json',
+        success: function ( json ) {
+            var tableDetails = "<table id='babe' class='table table-bordered table-striped'>";
+            for (var i = json.length - 1; i >= 0; i--) {
+
+              let newTr =  "<tr><td width='50%'>"+json[i][0]+"</td> <td width='50%'>"+json[i][1]+"</td><td width='30%'><button type='button' name='view' id='"+json[i][2]+"' class='btn btn-warning btn-xs view'>view</button></td></tr>";
+              tableDetails += newTr;
+            }
+            tableDetails += "</table>";
+            div
+                .append( tableDetails )
+                .removeClass( 'loading' );
+        }
+    } );
+ 
+    return div;
+}
+});
+
+$(document).on('click', '.view', function(){
+  var user_id = $(this).attr("id");
+console.log(user_id);
+  $.ajax({
+   url:"insert.php",
+   method:"POST",
+   data:{id:user_id, operation: 'View'},
+
+      success:function(data)
+   {
+    $('#userModal').modal('show');
+     $('.modal-title').text("voir details");
+    $('#action').val("View");
+    $('#operation').val("View");
+    var table =$('#view_details');
+
+var jsonel = JSON.parse(data);
+ var len = jsonel.length;
+console.log(len);
+table.html('');
+table.html('<thead><tr><td width="20%">Nom darticle</td><td width="20%">quantite</td><td width="20%">prix unitaire</td><td width="20%">Totale</td><td width="20%">remarque</td></tr></thead>')
+for (var i = 0; i < len; i++) {
+   el=jsonel[i];
+  table.append('<tbody><tr><td width="10%">'+ el.item_name +'</td ><td width="20%">'+ el.order_item_quantity +'</td><td width="20%">' + el.order_item_price + '</td><td width="20%">'+ el.order_item_final_amount + '</td><td width="20%">'+ el.remarque + '</td></tr><tbody>');
+}
+}
+ });
+});
+</script>

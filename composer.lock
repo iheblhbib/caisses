@@ -1,0 +1,66 @@
+{
+    "_readme": [
+        "This file locks the dependencies of your project to a known state",
+        "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
+        "This file is @generated automatically"
+    ],
+    "content-hash": "57971a6089375184be28cba148b15f1d",
+    "packages": [
+        {
+            "name": "kbs1/mpdf-5.7-php7",
+            "version": "dev-master",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/kbs1/mpdf-5.7-php7.git",
+                "reference": "32db27d785313e812de4facea3e41b095b67e172"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/kbs1/mpdf-5.7-php7/zipball/32db27d785313e812de4facea3e41b095b67e172",
+                "reference": "32db27d785313e812de4facea3e41b095b67e172",
+                "shasum": ""
+            },
+            "require": {
+                "ext-mbstring": "*",
+                "php": ">=4.3.10"
+            },
+            "type": "library",
+            "autoload": {
+                "classmap": [
+                    "mpdf.php",
+                    "classes"
+                ]
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "GPL-1.0+"
+            ],
+            "authors": [
+                {
+                    "name": "Ian Back"
+                },
+                {
+                    "name": "Ing. Viliam Kubis"
+                }
+            ],
+            "description": "A PHP class to generate PDF files from HTML with Unicode/UTF-8 and CJK support",
+            "homepage": "http://www.mpdf1.com/mpdf/index.php",
+            "keywords": [
+                "pdf",
+                "php",
+                "utf-8"
+            ],
+            "time": "2018-06-05T13:53:06+00:00"
+        }
+    ],
+    "packages-dev": [],
+    "aliases": [],
+    "minimum-stability": "stable",
+    "stability-flags": {
+        "kbs1/mpdf-5.7-php7": 20
+    },
+    "prefer-stable": false,
+    "prefer-lowest": false,
+    "platform": [],
+    "platform-dev": []
+}
