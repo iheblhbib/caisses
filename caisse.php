@@ -58,12 +58,6 @@ $statement3 = $connect->prepare("
 
 
     }
-
-    
-     
-
-
-
 ?>
 <!DOCTYPE html>
 <html lang="fr">
