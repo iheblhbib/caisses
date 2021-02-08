@@ -1,6 +1,8 @@
 <?php
   //invoice.php  
   include('config.php');
+  session_start();
+  $dataaa =  $_SESSION['date'];
 
  
  // $id=trim($_POST["id"])+1;
@@ -73,7 +75,7 @@ $order_id = $order_id["order_id"];
             ':order_item_price'       =>  trim($_POST["order_item_price"]),
             ':remarque'             =>  trim($_POST["remarque"]),
             ':order_item_final_amount'        =>  trim($_POST["order_item_final_amount"]),
-            ':created' =>  date("Y-m-d")
+            ':created' =>  trim($dataaa)
 
           )
         );

@@ -1,4 +1,5 @@
 <?php
+
   //invoice.php  
   include('config.php');
   include('session.php');
@@ -7,6 +8,10 @@
  $date2 = $_GET['date'];
  $date3 = $_GET['date'];
  $date4 = $_GET['date'];
+ $date5 = $_GET['date'];
+ $_SESSION['date'] = $date5;
+ echo $_SESSION['date'];
+
 
   $statement = $connect->prepare(" 
     SELECT *  FROM tbl_order_item where created='$date' and item_name<>'';
@@ -599,7 +604,7 @@ if(nom !='0' && montant !='0')
 {
   //console.log((order_item_quantity !=0 && order_item_final_amount !=0));
 $.ajax({
-  url:"data.php",
+  url:"data?date=.php",
   method:"POST",
   data:{
   id:id,
