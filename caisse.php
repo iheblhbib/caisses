@@ -10,7 +10,7 @@
  $date4 = $_GET['date'];
  $date5 = $_GET['date'];
  $_SESSION['date'] = $date5;
- echo $_SESSION['date'];
+
 
 
   $statement = $connect->prepare(" 
